@@ -80,7 +80,7 @@ def data_dump(train_data : pd.DataFrame,test_data :pd.DataFrame) -> None:
     try:
         # Created to Train and test data into data/raw folder 
         data_path = os.path.join('data','raw')
-        os.makedirs(data_path) # exist_ok save from throwing error if file already exists
+        os.makedirs(data_path,exist_ok=True) # exist_ok save from throwing error if file already exists
         logger.debug(f"Created directory: {data_path}")
     except Exception as e:
         logger.error(f'There an issue with data dumping :{e}')
