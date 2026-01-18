@@ -70,7 +70,7 @@ def model_prediction():
     try:
         logger.debug('Model Evaluation Started.')
         clf,test_data = loading_neccesity(model_path='./models/model.pkl',
-                      data_path='./data/processed/test_bow.csv')
+                      data_path='./data/processed/test_Tfidf.csv')
         X_test_bow,y_test =X_y_split(test_data=test_data)
 
         y_pred = clf.predict(X_test_bow)

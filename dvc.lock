@@ -41,48 +41,48 @@ stages:
       nfiles: 2
     - path: .\src\features\feature_engineering.py
       hash: md5
-      md5: 80bcde452dab8c7f751a7efa02f46a36
-      size: 5046
+      md5: 6fe6a7c732d26fcb462a55903f2e0e33
+      size: 5064
     outs:
     - path: .\data\processed
       hash: md5
-      md5: 54f12c75139d3b6af5525a6c44cef235.dir
-      size: 1068816
+      md5: 7ca69f0852dc8a5cd0fccec9d450dd11.dir
+      size: 2328492
       nfiles: 2
   model_building:
     cmd: python .\src\model\model_building.py
     deps:
     - path: .\data\processed
       hash: md5
-      md5: 54f12c75139d3b6af5525a6c44cef235.dir
-      size: 1068816
+      md5: 7ca69f0852dc8a5cd0fccec9d450dd11.dir
+      size: 2328492
       nfiles: 2
     - path: .\src\model\model_building.py
       hash: md5
-      md5: 7f4960aba3c8a2cf881dd5c1f80b7ba6
-      size: 2739
+      md5: 38611870bc5c8d13be2bcfce4c4df438
+      size: 2741
     outs:
     - path: .\models\model.pkl
       hash: md5
-      md5: 1d32efaa0e6a441a4a9fcb19040ac98c
-      size: 71833
+      md5: f4a1ddd89a80e9845e17d58ea9c361f6
+      size: 70825
   model_evaluation:
     cmd: python .\src\model\model_evaluation.py
     deps:
-    - path: .\data\processed\test_bow.csv
+    - path: .\data\processed\test_Tfidf.csv
       hash: md5
-      md5: 4fc2e5512bb3e45d0b29c63c9a007e1b
-      size: 213872
+      md5: 95910ee69c2d0fa4787aa567167a64b3
+      size: 465303
     - path: .\models\model.pkl
       hash: md5
-      md5: 1d32efaa0e6a441a4a9fcb19040ac98c
-      size: 71833
+      md5: f4a1ddd89a80e9845e17d58ea9c361f6
+      size: 70825
     - path: .\src\model\model_evaluation.py
       hash: md5
-      md5: f60b1f39ce5690772345dd49f4b26725
-      size: 3177
+      md5: 79119c2d8f23808a8d95962bf35680b3
+      size: 3179
     outs:
     - path: .\reports\metrics.json
       hash: md5
-      md5: dd8ce9732238ef09e601d1f6f0e14f7c
-      size: 146
+      md5: 0483883e2739d95b3747b66178e2317d
+      size: 145

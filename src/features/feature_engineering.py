@@ -6,7 +6,7 @@ import os
 import yaml
 import logging
 
-from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 logger = logging.getLogger('feature_engg')
 logger.setLevel('DEBUG')
@@ -77,23 +77,23 @@ def data_split(train_data :pd.DataFrame,test_data :pd.DataFrame) ->tuple[pd.Data
 
 
 
-def bag_of_word(model : CountVectorizer, X_train :pd.DataFrame, y_train :pd.DataFrame, X_test :pd.DataFrame, y_test :pd.DataFrame) ->tuple[pd.DataFrame,pd.DataFrame]:
+def Tfidf(model : TfidfVectorizer, X_train :pd.DataFrame, y_train :pd.DataFrame, X_test :pd.DataFrame, y_test :pd.DataFrame) ->tuple[pd.DataFrame,pd.DataFrame]:
     try:
         # Fit the vectorizer on the training data and transform it
-        X_train_bow = model.fit_transform(X_train)
-        logger.debug(f'Transfomed X_train -> X_train bow ({X_train_bow.shape})')
+        X_train_Tfidf = model.fit_transform(X_train)
+        logger.debug(f'Transfomed X_train -> X_train Tfidf ({X_train_Tfidf.shape})')
     
         # Transform the test data using the same vectorizer
-        X_test_bow = model.transform(X_test)
-        logger.debug(f'Transfomed X_test -> X_test bow ({X_test_bow.shape})')
+        X_test_Tfidf = model.transform(X_test)
+        logger.debug(f'Transfomed X_test -> X_test Tfidf ({X_test_Tfidf.shape})')
         # adding output column in train data
 
-        train_df = pd.DataFrame(X_train_bow.toarray())
+        train_df = pd.DataFrame(X_train_Tfidf.toarray())
 
         train_df['label'] = y_train
 
         # adding output column  in test data
-        test_df = pd.DataFrame(X_test_bow.toarray())
+        test_df = pd.DataFrame(X_test_Tfidf.toarray())
 
         test_df['label'] = y_test
 
@@ -101,10 +101,10 @@ def bag_of_word(model : CountVectorizer, X_train :pd.DataFrame, y_train :pd.Data
         logger.error('Value you provided is not a dataframe.')
         raise
     except Exception as e:
-        logger.error(f"Bag of Words failed: {e}")
+        logger.error(f"TfidfVectorizer failed: {e}")
         raise
     else:
-        logger.debug('Successfully Applied Bag of words on train_data,test_data')
+        logger.debug('Successfully Applied TfidfVectorizer on train_data,test_data')
         return train_df, test_df
 
 def data_storing(train_df :pd.DataFrame,test_df :pd.DataFrame) ->None:# Storing the transform data
@@ -115,8 +115,8 @@ def data_storing(train_df :pd.DataFrame,test_df :pd.DataFrame) ->None:# Storing 
         logger.error(e)
         raise
     else:
-        train_df.to_csv(os.path.join(data_path,'train_bow.csv'),index=False)
-        test_df.to_csv(os.path.join(data_path,'test_bow.csv'),index=False)
+        train_df.to_csv(os.path.join(data_path,'train_Tfidf.csv'),index=False)
+        test_df.to_csv(os.path.join(data_path,'test_Tfidf.csv'),index=False)
 
 
 def complete_feature_eng():
@@ -128,8 +128,8 @@ def complete_feature_eng():
 
         X_train, y_train, X_test, y_test=data_split(train_data=train, test_data=test)
 
-        vectorizer = CountVectorizer(max_features=max_features) # creating bag of word model
-        train_df, test_df = bag_of_word(model=vectorizer,
+        vectorizer = TfidfVectorizer(max_features=max_features) # creating bag of word model
+        train_df, test_df = Tfidf(model=vectorizer,
                                    X_train=X_train, y_train=y_train,
                                    X_test=X_test, y_test=y_test)
     except ImportError:
@@ -137,7 +137,7 @@ def complete_feature_eng():
         raise
     else:    
         data_storing(train_df=train_df, test_df=test_df)# Dumping data
-        logger.debug(f'Train bow :{train_df.shape}, Test bow :{test_df.shape} is dumped after processing at data/processed.')
+        logger.debug(f'Train Tfidf :{train_df.shape}, Test Tfidf :{test_df.shape} is dumped after processing at data/processed.')
 
 if __name__=='__main__':
     complete_feature_eng()

@@ -65,7 +65,7 @@ def X_y_split(train_data :pd.DataFrame) ->tuple[np.ndarray,np.ndarray]:
 def model_building():
     try :
         logger.debug('Model training is started.')
-        train_data = data_loading(train_path='./data/processed/train_bow.csv')
+        train_data = data_loading(train_path='./data/processed/train_Tfidf.csv')
 
         # train data split
         X_train,y_train = X_y_split(train_data=train_data)

@@ -30,7 +30,7 @@ stages:
   model_evaluation:
     cmd: python .\src\model\model_evaluation.py
     deps:
-    - .\data\processed\test_bow.csv
+    - .\data\processed\test_Tfidf.csv
     - .\models\model.pkl
     - .\src\model\model_evaluation.py
     metrics:
